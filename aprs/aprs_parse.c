@@ -16,6 +16,16 @@ https://www.tapr.org/pdf/AX25.2.2.pdf
 #include <stdlib.h>
 
 #define MAXSIZE 500
+#define HDFLG 1
+#define DEST 7
+#define SRC 7
+#define DGPT 56
+#define CTLFLD 1
+#define PROTOID 1
+#define INFOFLD 256
+#define FCS 2
+#define TLFLG 1
+
 /* AX.25 UI Frame used for APRS packets */
 struct ax25_UI {
 	char* head_flag; //bit sequence that separates each frame by 0x7e
@@ -52,15 +62,15 @@ int main (int argc, char * argv[])
 		error_handle("[!!] Invalid packet size\n");
 
 	int i = 0;
-	strcpy(packet.head_flag, &buffer[0]); 
-	strcpy(packet.dest, &buffer[2]);
-	strcpy(packet.src, &buffer[8]);
-	strcpy(packet.digipeater, &buffer[15]);
-	strcpy(packet.ctl_fld, &buffer[71]);
-	strcpy(packet.proto_ID, &buffer[72]);
-	strcpy(packet.info_fld, &buffer[73]);
-	strcpy(packet.fcs, &buffer[329]);
-	strcpy(packet.tail_flag, &buffer[330]);
+	strcpy(packet.head_flag, &buffer[i]); 
+	strcpy(packet.dest, &buffer[(i+= HDFLG)]);
+	strcpy(packet.src, &buffer[(i += DEST)]);
+	strcpy(packet.digipeater, &buffer[(i += SRC)]);
+	strcpy(packet.ctl_fld, &buffer[(i += DGPT)]);
+	strcpy(packet.proto_ID, &buffer[(i += CTLFLD)]);
+	strcpy(packet.info_fld, &buffer[(i += PROTOID)]);
+	strcpy(packet.fcs, &buffer[(i += INFOFLD)]);
+	strcpy(packet.tail_flag, &buffer[(i += FCS)]);
 
 	print_packet(packet);
 	return 0;
@@ -74,7 +84,7 @@ void error_handle (char * error_string)
 
 void print_packet(struct ax25_UI packet)
 {
-	printf("###PACKET###\nFLAG: %s\nDest: %s\nSrc: %s\nDigipeaters: %s\nDATA: %s\nFCS: %s\nFLAG: %s\n",
+	printf("###PACKET###\nFLAG: %.1s\nDest: %.7s\nSrc: %.7s\nDigipeaters: %.56s\nDATA: %.256s\nFCS: %s\nFLAG: %.1s\n",
 		packet.head_flag,packet.dest,packet.src,packet.digipeater,
 		packet.info_fld,packet.fcs,packet.tail_flag);
 
