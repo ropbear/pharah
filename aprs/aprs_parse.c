@@ -16,6 +16,8 @@ https://www.tapr.org/pdf/AX25.2.2.pdf
 #include <stdlib.h>
 
 #define MAXSIZE 500
+
+//subtract 1 from each field for actual size. Spacing for null byte.
 #define HDFLG 1
 #define DEST 7
 #define SRC 7
@@ -47,6 +49,7 @@ int main (int argc, char * argv[])
 	struct ax25_UI packet; 
 	char buffer[MAXSIZE];
 
+//Build packet buffer.
 	packet.head_flag = (char *) malloc(sizeof(char *));
 	packet.dest = (char *) malloc(sizeof(char *));
 	packet.src = (char *) malloc(sizeof(char *));
@@ -62,16 +65,25 @@ int main (int argc, char * argv[])
 		error_handle("[!!] Invalid packet size\n");
 
 	int i = 0;
-	strcpy(packet.head_flag, &buffer[i]); 
-	strcpy(packet.dest, &buffer[(i+= HDFLG)]);
-	strcpy(packet.src, &buffer[(i += DEST)]);
-	strcpy(packet.digipeater, &buffer[(i += SRC)]);
-	strcpy(packet.ctl_fld, &buffer[(i += DGPT)]);
-	strcpy(packet.proto_ID, &buffer[(i += CTLFLD)]);
-	strcpy(packet.info_fld, &buffer[(i += PROTOID)]);
-	strcpy(packet.fcs, &buffer[(i += INFOFLD)]);
-	strcpy(packet.tail_flag, &buffer[(i += FCS)]);
+	strcpy(packet.head_flag, &buffer[i]);
+	i += HDFLG;
+	strcpy(packet.dest, &buffer[i]);
+	i += DEST;
+	strcpy(packet.src, &buffer[i]);
+	i += SRC;
+	strcpy(packet.digipeater, &buffer[i]);
+	i += DGPT;
+	strcpy(packet.ctl_fld, &buffer[i]);
+	i += CTLFLD;
+	strcpy(packet.proto_ID, &buffer[i]);
+	i += PROTOID;
+	strcpy(packet.info_fld, &buffer[i]);
+	i += INFOFLD;
+	strcpy(packet.fcs, &buffer[i]);
+	i += FCS;
+	strcpy(packet.tail_flag, &buffer[i]);
 
+//Output packet.
 	print_packet(packet);
 	return 0;
 }
@@ -84,9 +96,10 @@ void error_handle (char * error_string)
 
 void print_packet(struct ax25_UI packet)
 {
-	printf("###PACKET###\nFLAG: %.1s\nDest: %.7s\nSrc: %.7s\nDigipeaters: %.56s\nDATA: %.256s\nFCS: %s\nFLAG: %.1s\n",
+	printf("###PACKET###\nFLAG: %s\nDest: %s\nSrc: %s\nDigipeaters: %s\nCTL: %s\nProtoID: %s\nDATA: %s\nFCS: %s\nFLAG: %s\n",
 		packet.head_flag,packet.dest,packet.src,packet.digipeater,
-		packet.info_fld,packet.fcs,packet.tail_flag);
-
+		packet.ctl_fld, packet.proto_ID,
+		packet.info_fld,packet.fcs,packet.tail_flag
+	);
 }
 
