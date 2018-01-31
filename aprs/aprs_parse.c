@@ -1,12 +1,13 @@
 /* 
 APRS Parser
-Purpose: Built to take packets recieved by a station and
-output the different data fields in a CSV format for use
-in other parts of the Pharah program.
+Purpose: Recieve packets from stdin and parse out the relevant
+data, printing it to stdout in the form "dest,src,dgpt,data" on
+each line for each packet.
 
 References:
 https://www.tapr.org/pdf/AX25.2.2.pdf
-	> Provided information about bit sequence in the frame.
+	> Provided information about bit sequence in the frame,
+	> as well as the Frame Check Sequence.
 
 */
 
@@ -16,90 +17,80 @@ https://www.tapr.org/pdf/AX25.2.2.pdf
 #include <stdlib.h>
 
 #define MAXSIZE 500
+#define ADDR_MAX 7
+#define DGPT_MAX 56
+#define DATA_MAX 258
 
-//subtract 1 from each field for actual size. Spacing for null byte.
-#define HDFLG 1
-#define DEST 7
-#define SRC 7
-#define DGPT 56
-#define CTLFLD 1
-#define PROTOID 1
-#define INFOFLD 256
-#define FCS 2
-#define TLFLG 1
-
-/* AX.25 UI Frame used for APRS packets */
-struct ax25_UI {
-	char* head_flag; //bit sequence that separates each frame by 0x7e
-	char* dest; //APRS destination callsign
-	char* src; //APRS source callsign
-	char* digipeater; //zero to 8 digipeater callsigns
-	char* ctl_fld; //set to 0x03 for UI frame in ax25 protocol
-	char* proto_ID; //set to 0xf0 (no layer 3 protocol)
-	char* info_fld; //APRS data, first byte identifies data type
-	char* fcs; //sequence of 16 bits for checking integrity
-	char* tail_flag; //same as the head_flag (0x7e)
-};
+#define FLAG 0x7e //The flag the frame begins and ends with.
+#define CTLFLAG 0x03 //The Control field and Protocol ID will always be 0x03 and 0xf0
+#define PIDFLAG 0xf0
 
 void error_handle (char * error_string);
-void print_packet(struct ax25_UI packet);
+void print_packet (char * dest,char * src, char * dgpt, char * data);
 
 int main (int argc, char * argv[]) 
 {
-	struct ax25_UI packet; 
-	char buffer[MAXSIZE];
+	int c,findex;
+	unsigned long throughput;
+	int recv,addr,mid,info;
+	char dest[ADDR_MAX];
+	char src[ADDR_MAX];
+	char dgpt[DGPT_MAX];
+	char data[DATA_MAX];
 
-//Build packet buffer.
-	packet.head_flag = (char *) malloc(sizeof(char *));
-	packet.dest = (char *) malloc(sizeof(char *));
-	packet.src = (char *) malloc(sizeof(char *));
-	packet.digipeater = (char *) malloc(sizeof(char *));
-	packet.ctl_fld = (char *) malloc(sizeof(char *));
-	packet.proto_ID = (char *) malloc(sizeof(char *));
-	packet.info_fld = (char *) malloc(sizeof(char *));
-	packet.fcs = (char *) malloc(sizeof(char *));
-	packet.tail_flag = (char *) malloc(sizeof(char *));
-	memset(buffer, 0x00, MAXSIZE);
+	findex, throughput = 0;
+	addr = 1;
+	mid, info = 0;
 
-	if (MAXSIZE < scanf("%s",buffer))
-		error_handle("[!!] Invalid packet size\n");
-
-	int i = 0;
-	strcpy(packet.head_flag, &buffer[i]);
-	i += HDFLG;
-	strcpy(packet.dest, &buffer[i]);
-	i += DEST;
-	strcpy(packet.src, &buffer[i]);
-	i += SRC;
-	strcpy(packet.digipeater, &buffer[i]);
-	i += DGPT;
-	strcpy(packet.ctl_fld, &buffer[i]);
-	i += CTLFLD;
-	strcpy(packet.proto_ID, &buffer[i]);
-	i += PROTOID;
-	strcpy(packet.info_fld, &buffer[i]);
-	i += INFOFLD;
-	strcpy(packet.fcs, &buffer[i]);
-	i += FCS;
-	strcpy(packet.tail_flag, &buffer[i]);
-
-//Output packet.
-	print_packet(packet);
+	while ((c = getchar()) != EOF) {
+		if (recv) {
+			if (addr) {
+				if (c == CTLFLAG)
+					mid = 1;
+				else if (c == PIDFLAG && mid) {
+					addr = 0;
+					info = 1;
+					findex = 0;
+				}
+				else {
+					switch ((findex++)%ADDR_MAX && findex < DGPT_MAX+(ADDR_MAX*2)) {
+						case 0 :
+							dest[findex] = c;
+						case 1 :
+							dest[(findex%ADDR_MAX)] = c;
+						default:
+							dgpt[(findex-(ADDR_MAX*2))] = c;
+					}
+					mid = 0; //make sure there wasn't a random CTLFLAG byte
+				}
+			}
+			else if (info && findex < DATA_MAX) {
+				if (c == FLAG) {
+					print_packet(dest,src,dgpt,data);
+					recv = 0;
+					break;
+				}
+				data[findex] = c;
+			}
+			else
+				error_handle("[!!] Error during listen.\n");
+		}
+		else if (c == FLAG) {
+			recv = 1;
+		}
+		throughput++;
+	}
 	return 0;
 }
 
 void error_handle (char * error_string)
 {
-	perror(error_string);
+	printf("%s",error_string);
 	exit(1);
 }
 
-void print_packet(struct ax25_UI packet)
+void print_packet (char * dest, char * src, char * dgpt, char * data)
 {
-	printf("###PACKET###\nFLAG: %s\nDest: %s\nSrc: %s\nDigipeaters: %s\nCTL: %s\nProtoID: %s\nDATA: %s\nFCS: %s\nFLAG: %s\n",
-		packet.head_flag,packet.dest,packet.src,packet.digipeater,
-		packet.ctl_fld, packet.proto_ID,
-		packet.info_fld,packet.fcs,packet.tail_flag
-	);
+	printf("%s,%s,%s,%s\n",dest,src,dgpt,data);
 }
 
