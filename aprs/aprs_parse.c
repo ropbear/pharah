@@ -16,7 +16,6 @@ https://www.tapr.org/pdf/AX25.2.2.pdf
 #include <string.h>
 #include <stdlib.h>
 
-#define MAXSIZE 500
 #define ADDR_MAX 7
 #define DGPT_MAX 56
 #define DATA_MAX 258
@@ -30,7 +29,7 @@ void print_packet (char * dest,char * src, char * dgpt, char * data);
 
 int main (int argc, char * argv[]) 
 {
-	int c,findex;
+	unsigned int c,findex;
 	unsigned long throughput;
 	int recv,addr,mid,info;
 	char dest[ADDR_MAX];
@@ -38,33 +37,36 @@ int main (int argc, char * argv[])
 	char dgpt[DGPT_MAX];
 	char data[DATA_MAX];
 
-	findex, throughput = 0;
+	findex = throughput = 0;
 	addr = 1;
-	mid, info = 0;
+	recv = mid = info = 0;
 
 	while ((c = getchar()) != EOF) {
-		if (recv) {
-			if (addr) {
+		if (1 == recv) {
+			if (1 == addr) {
 				if (c == CTLFLAG)
 					mid = 1;
-				else if (c == PIDFLAG && mid) {
+				else if (c == PIDFLAG && mid == 1) {
 					addr = 0;
 					info = 1;
 					findex = 0;
 				}
-				else {
-					switch ((findex++)%ADDR_MAX && findex < DGPT_MAX+(ADDR_MAX*2)) {
-						case 0 :
-							dest[findex] = c;
-						case 1 :
-							dest[(findex%ADDR_MAX)] = c;
-						default:
-							dgpt[(findex-(ADDR_MAX*2))] = c;
+				else if (findex < DGPT_MAX + (2*ADDR_MAX)) {
+					switch ((findex)/ADDR_MAX) {
+						case 0 : 
+							dest[findex++] = c;
+							break;
+						case 1 : 
+							src[((findex++)%ADDR_MAX)] = c;
+							break;
+						default : 
+							dgpt[((findex++)-(ADDR_MAX*2))] = c;
+							break;
 					}
 					mid = 0; //make sure there wasn't a random CTLFLAG byte
 				}
 			}
-			else if (info && findex < DATA_MAX) {
+			else if (info == 1 && findex < DATA_MAX) {
 				if (c == FLAG) {
 					print_packet(dest,src,dgpt,data);
 					recv = 0;
