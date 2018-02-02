@@ -1,5 +1,5 @@
 # APRS AND AX.25
-#### From ![aprs.org](http://www.aprs.org/doc/APRS101.PDF)
+#### From http://www.aprs.org/doc/APRS101.PDF
 Protocols At the link level, APRS uses the AX.25 protocol, as defined in Amateur
 Packet-Radio Link-Layer Protocol (see Appendix 6 for details), utilizing
 Unnumbered Information (UI) frames exclusively. This means that APRS
