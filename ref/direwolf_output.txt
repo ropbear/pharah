@@ -1,0 +1,40 @@
+Dire Wolf version 1.4
+
+Reading config file direwolf.conf
+Audio input device for receive: stdin  (channel 0)
+Audio out device for transmit: default  (channel 0)
+Found 1 device(s):
+Channel 0: 1200 baud, AFSK 1200 & 2200 Hz, E+, 24000 sample rate.
+Note: PTT not configured for channel 0. (Ignore this if using VOX.)
+Ready to accept AGW client application 0 on port 8000 ...
+Use -p command line option to enable KISS pseudo terminal.
+Ready to accept KISS client application on port 8001 ...
+  0:  Realtek, RTL2838UHIDIR, SN: 00000001
+
+Using device 0: Generic RTL2832U OEM
+Found Rafael Micro R820T tuner
+Tuner gain set to automatic.
+Tuned to 144642000 Hz.
+Oversampling input by: 42x.
+Oversampling output by: 1x.
+Buffer size: 8.13ms
+Exact sample rate is: 1008000.009613 Hz
+Sampling at 1008000 S/s.
+Output at 24000 Hz.
+
+W2KGY-13 audio level = 43(15/13)   [NONE]   |||||||__
+[0.3] W2KGY-13>APTT4,WIDE1-1,WIDE2-1:/000000h1234.56N/12345.67W>000/000/TinyTrak4 Alpha/A=003281
+Position with time, normal car (side view), Tiny Track
+N 12 34.5600, W 123 45.6700, 0 MPH, course 0, alt 3281 ft
+/TinyTrak4 Alpha
+
+W2KGY-13 audio level = 31(11/10)   [NONE]   |||||||__
+[0.3] W2KGY-13>APTT4,WIDE1-1,WIDE2-1:T#000,113,085,124,108,098,01001011
+Telemetry, REC. VEHICLE, Tiny Track
+Seq=0, A1=113, A2=85, A3=124, A4=108, A5=98, D1=0, D2=1, D3=0, D4=0, D5=1, D6=0, D7=1, D8=1
+
+W2KGY-13 audio level = 43(13/12)   [NONE]   ||||||___
+[0.2] W2KGY-13>APTT4,WIDE1-1,WIDE2-1:/000000h1234.56N/12345.67W>000/000/TinyTrak4 Alpha/A=003281
+Position with time, normal car (side view), Tiny Track
+N 12 34.5600, W 123 45.6700, 0 MPH, course 0, alt 3281 ft
+/TinyTrak4 Alpha
