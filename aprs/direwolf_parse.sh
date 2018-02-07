@@ -6,11 +6,12 @@
 
 LINE=`grep "N "`
 
-LONG=`echo $LINE | cut -d " " -f 2`
-LAT=`echo $LINE | cut -d " " -f 4`
-ALT=`echo $LINE | cut -d " " -f 6`
-TEL=`echo $LINE | cut -d " " -f 8`
+LONG=`echo $LINE | cut -d "," -f 1`
+LAT=`echo $LINE | cut -d "," -f 2`
+ALT=`echo $LINE | cut -d "," -f 5 | cut -d " " -f 3`
+TEL=`echo $LINE | cut -d "," -f 3`
+COURSE=`echo $LINE | cut -d "," -f 4 | cut -d " " -f 3`
 
-echo "${LONG} ${LAT} ${ALT} ${TEL}"
+echo -e "Latitude:${LONG}\nLongtitude:${LAT}\nAltitude: ${ALT} ft\nSpeed:${TEL}\nCourse: ${COURSE} Degrees"
 
 
