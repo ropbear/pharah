@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<head>
+<!--
+ This is not open source.
+ (c) Heikki Hannikainen and GainIO Oy.
+ Read and learn freely. Do not steal. Thanks!
+-->
+<title>Raw packets of SUNLGT – Google Maps APRS</title>
+<meta name="lang" content="en" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name='apple-itunes-app' content='app-id=922155038, affiliate-data=at=1000la28'>
+
+
+<script type='text/javascript'>
+window.google_analytics_uacct = 'UA-84382-11';
+var _ga_start = new Date();
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount','UA-84382-11']);
+_gaq.push(['_setCustomVar',1,'User class','unregistered',1]);
+_gaq.push(['_setAllowAnchor',true],['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type='text/JavaScript'>
+//<![CDATA[
+if (parent.frames.length && location.href.toLowerCase().indexOf("http://translate.google") != 0)
+	top.location.href = document.location;
+//]]>
+</script>
+
+
+<script type='text/javascript'>
+var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+(function() {
+var gads = document.createElement('script');
+gads.async = true;
+gads.type = 'text/javascript';
+var useSSL = 'https:' == document.location.protocol;
+gads.src = (useSSL ? 'https:' : 'http:') + 
+'//www.googletagservices.com/tag/js/gpt.js';
+var node = document.getElementsByTagName('script')[0];
+node.parentNode.insertBefore(gads, node);
+})();
+</script>
+
+<script type='text/javascript'>
+googletag.cmd.push(function() {
+googletag.defineSlot('/2637906/aprs-map-bottom', [250, 250], 'div-gpt-ad-1356108158202-0').addService(googletag.pubads());
+googletag.defineSlot('/2637906/aprs-map-top', [234, 60], 'div-gpt-ad-1356108158202-1').addService(googletag.pubads());
+googletag.defineSlot('/2637906/aprs-info-banner-top', [728, 90], 'div-gpt-ad-1356296834922-0').addService(googletag.pubads());
+googletag.defineSlot('/2637906/aprs-info-banner-bottom', [728, 90], 'div-gpt-ad-1356296727404-0').addService(googletag.pubads());
+googletag.pubads().enableSingleRequest();
+googletag.enableServices();
+});
+</script>
+
+
+
+<link rel="stylesheet" href="/css/ext/bootstrap.min.css">
+<link rel="stylesheet" href="/css/ext/bootstrap-theme.min.css">
+
+<link rel="stylesheet" type="text/css" href="/css/1489926978/maps.css" />
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="/js/ext/bootstrap.min.js"></script>
+
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="shortcut" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-startup-image" href="/img/aprsfi-appleloading.png" />
+<link rel="apple-touch-icon" href="/img/aprsfi-applelogo-57x57.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="/img/aprsfi-applelogo-72x72.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="/img/aprsfi-applelogo-114x114.png" />
+<link rel="search" type="application/opensearchdescription+xml" title="Search aprs.fi" href="/w3c/opensearch.xml" />
+</head>
+<body style="background-color: #fff;" class="common">
+
+
+<div id="popup_cont" class="popup_container" style="display: none; z-index: 60;">
+	<div id="popup_handle" class="popup_handle">
+		<div id="popup_buttons" class="popup_buttons"><img src="/img/close.gif" width="16" height="16" class="popup_closeicon" id="popup_closeicon" alt="close" onmousedown="popup_hide('popup');" /></div>
+		<div id="popup_title" class="popup_title">t</div>
+	</div>
+	<div id="popup_content" class="popup_content popup_text"></div>
+</div>
+
+<div id="ttip" class="ttip"></div>
+
+<script type='text/JavaScript'>
+//<![CDATA[
+analytics = 1;
+cookie_domain = 'aprs.fi';
+settings_cookie = 'mapssettings';
+//]]>
+</script>
+<script type="text/JavaScript" src="/js/en/1499000509/lib.js"></script><script type='text/JavaScript'>
+//<![CDATA[
+sett(1518589022)//]]>
+</script>
+<div class='box'><div class='boxhdrtop'>
+Raw packets of SUNLGT
+- <a href='/#!call=SUNLGT'>map view</a>
+· <a href='/info/SUNLGT'>info</a>
+· <a rel='nofollow' href='/telemetry/SUNLGT'>telemetry</a>
+· <a rel='nofollow' href='/weather/SUNLGT'>weather</a>
+· <a rel='nofollow' href='/?c=raw&amp;call=SUNLGT'>raw</a>
+· <a rel='nofollow' href='/?c=status&amp;call=SUNLGT'>status</a>
+· <a rel='nofollow' href='/?c=beacon&amp;call=SUNLGT'>beacons</a>
+· <a rel='nofollow' href='/?c=message&amp;call=SUNLGT'>messages</a>
+· <a href='/bulletin/'>bulletins</a>
+· <a href='/browse/'>browse</a>
+· <a href='/moving/'>moving</a>
+· <a rel='nofollow' href='https://aprs.fi/account/'>my account</a>
+
+</div><div class='boxshadetop'></div><div class='container'>
+
+<form name='browseform' method='get' action='?'>
+<input type='hidden' name='c' value='raw' />
+
+<div class='row'>
+<div class="col-md-12 col-sm-12 col-xs-12">
+
+<div style="float: left; height: 25px; vertical-align: middle;">
+Originating callsign: <input name='call' id='in' size='13' value='SUNLGT' />
+</div>
+
+<div style="float: left; height: 25px; vertical-align: middle; margin: 0 0 0 5px;">
+<input type='submit' value='Search' class='button button_default button_medium' />
+<a class='button button_default button_medium' href='?c=raw&amp;limit=50'>Clear</a>
+</div>
+
+<div style="float: left; height: 25px; vertical-align: middle; margin: 0 0 0 15px;">
+<span id='browselinks'></span>
+</div>
+<div style="float: left; height: 25px; vertical-align: middle; margin: 4px 0 0 15px;">
+Show: <select name='limit' onchange='document.browseform.submit()'><option value='5'>5</option><option value='25'>25</option><option value='50' selected='selected'>50</option><option value='100'>100</option><option value='300'>300</option><option value='500'>500</option><option value='1000'>1000</option></select>
+<select name='view' onchange='document.browseform.submit()'><option value='normal'>Normal</option><option value='hex'>Hex</option><option value='decoded' selected='selected'>Decoded</option></select>
+</div>
+
+</div>
+</div><!-- row -->
+</form>
+
+<div class='row'>
+<div class="col-md-12 col-sm-12 col-xs-12">
+<p><span id='status'>Loading raw packets...</span></p>
+<p>Raw APRS-IS packets are stored for 2 days. Unsupported and unparseable packets are shown in red. Some formats are unsupported at the moment. AIS data is not shown here. It is possible to search using wildcards (*?) after a prefix.</p>
+</div>
+</div>
+
+</div></div>
+
+
+<div class='table-responsive'><div class='browselist_data'>
+<span class='raw_line'>2018-02-13 21:46:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-13 21:46:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#342,13.5,13.9,2.77,2.85,13.6,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 342<br />
+      values: 13.5, 13.9, 2.77, 2.85, 13.6<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-13 21:49:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-13 21:56:57 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-13 21:56:57 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#343,13.5,13.9,2.77,2.85,13.1,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 343<br />
+      values: 13.5, 13.9, 2.77, 2.85, 13.1<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-13 21:58:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,WIDE2-2,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-13 22:06:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-13 22:06:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#344,13.5,13.9,2.77,2.85,13.6,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 344<br />
+      values: 13.5, 13.9, 2.77, 2.85, 13.6<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-13 22:09:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-13 22:16:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-13 22:16:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#345,13.5,13.9,2.77,2.77,13.5,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 345<br />
+      values: 13.5, 13.9, 2.77, 2.77, 13.5<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-13 22:19:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-13 22:26:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-13 22:26:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#346,13.5,13.9,2.77,2.77,13.3,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 346<br />
+      values: 13.5, 13.9, 2.77, 2.77, 13.3<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-13 22:29:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-13 22:36:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAr,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-13 22:36:57 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#347,13.5,13.9,2.77,2.77,13.4,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 347<br />
+      values: 13.5, 13.9, 2.77, 2.77, 13.4<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-13 22:39:04 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-13 22:46:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-13 22:46:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#348,13.5,13.9,2.77,2.75,13.4,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 348<br />
+      values: 13.5, 13.9, 2.77, 2.75, 13.4<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-13 22:49:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-13 22:56:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-13 22:56:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#349,13.5,13.9,2.77,2.75,13.5,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 349<br />
+      values: 13.5, 13.9, 2.77, 2.75, 13.5<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-13 22:58:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,WIDE2-2,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-13 23:06:57 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-13 23:06:59 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=RBERRY'>RBERRY*</a>,WIDE2,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=ABAJO'>ABAJO</a>:T#350,13.5,13.9,2.77,2.75,13.5,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 350<br />
+      values: 13.5, 13.9, 2.77, 2.75, 13.5<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-13 23:07:20 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APU25N,WIDE2-1,qAr,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a>:=3925.36N/10722.53W#Sunlight Peak Igate &amp; Digi  N0NHJ {UIV32N}</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APU25N<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: #<br />
+   messaging: 1<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: Sunlight Peak Igate &amp; Digi  N0NHJ {UIV32N}<br />
+<br />
+<span class='raw_line'>2018-02-13 23:09:04 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-13 23:16:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-13 23:16:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#351,13.5,13.9,2.77,2.75,13.5,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 351<br />
+      values: 13.5, 13.9, 2.77, 2.75, 13.5<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-13 23:19:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-13 23:26:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-13 23:26:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#352,13.5,13.9,2.77,2.75,13.3,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 352<br />
+      values: 13.5, 13.9, 2.77, 2.75, 13.3<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-13 23:29:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-13 23:36:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-13 23:36:58 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=WERNER'>WERNER*</a>,WIDE2*,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=CEDAR'>CEDAR</a>:T#353,13.5,13.9,2.77,2.79,13.5,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 353<br />
+      values: 13.5, 13.9, 2.77, 2.79, 13.5<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-13 23:39:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-13 23:46:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-13 23:46:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#354,13.5,13.9,2.77,2.79,13.5,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 354<br />
+      values: 13.5, 13.9, 2.77, 2.79, 13.5<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-13 23:49:09 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-13 23:56:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-13 23:56:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#355,13.5,13.9,2.77,2.81,13.5,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 355<br />
+      values: 13.5, 13.9, 2.77, 2.81, 13.5<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-13 23:58:04 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,WIDE2-2,qAr,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-14 00:06:57 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAr,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a>:T#356,13.5,13.9,2.77,2.81,13.5,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 356<br />
+      values: 13.5, 13.9, 2.77, 2.81, 13.5<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-14 00:06:57 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=WERNER'>WERNER*</a>,WIDE2*,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=CEDAR'>CEDAR</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-14 00:09:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-14 00:16:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-14 00:16:57 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#357,13.5,13.9,2.77,2.81,13.5,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 357<br />
+      values: 13.5, 13.9, 2.77, 2.81, 13.5<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-14 00:19:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-14 00:26:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-14 00:26:57 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#358,13.5,13.9,2.77,2.83,13.5,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 358<br />
+      values: 13.5, 13.9, 2.77, 2.83, 13.5<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-14 00:29:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-14 00:36:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-14 00:36:57 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#359,13.5,13.9,2.77,2.83,13.5,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 359<br />
+      values: 13.5, 13.9, 2.77, 2.83, 13.5<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-14 00:37:19 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APU25N,WIDE2-1,qAr,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a>:=3925.36N/10722.53W#Sunlight Peak Igate &amp; Digi  N0NHJ {UIV32N}</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APU25N<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: #<br />
+   messaging: 1<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: Sunlight Peak Igate &amp; Digi  N0NHJ {UIV32N}<br />
+<br />
+<span class='raw_line'>2018-02-14 00:39:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-14 00:46:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-14 00:46:57 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#360,13.5,13.9,2.77,2.83,13.5,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 360<br />
+      values: 13.5, 13.9, 2.77, 2.83, 13.5<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-14 00:49:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-14 00:56:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-14 00:56:57 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#361,13.5,13.9,2.77,2.83,13.5,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 361<br />
+      values: 13.5, 13.9, 2.77, 2.83, 13.5<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-14 00:58:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,WIDE2-2,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-14 01:06:58 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-14 01:06:58 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#362,13.5,13.9,2.77,2.83,13.6,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 362<br />
+      values: 13.5, 13.9, 2.77, 2.83, 13.6<br />
+      bits: 00001110<br />
+<br />
+<span class='raw_line'>2018-02-14 01:09:03 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;APN391,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:!3925.36NS10722.53W#PHG4820 N0NHJ W2,COn /A=010500</span><br />
+   type: location<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: APN391<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   altitude: 3200.4  m<br />
+   symboltable: S<br />
+   symbolcode: #<br />
+   messaging: 0<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: N0NHJ W2,COn<br />
+   phg: 4820<br />
+<br />
+<span class='raw_line'>2018-02-14 01:16:56 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:;146.850-c*111111z3925.36N/10722.53WrT123 R40m Colorado  Connection</span><br />
+   type: object<br />
+   format: uncompressed<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   objectname: 146.850-c<br />
+   alive: 1<br />
+   latitude: 39.42266666666666 °<br />
+   longitude: -107.3755 °<br />
+   symboltable: /<br />
+   symbolcode: r<br />
+   posresolution: 18.52  m<br />
+   posambiguity: 0<br />
+   comment: T123 R40m Colorado  Connection<br />
+   timestamp: 1518347460 - 2018-02-11 06:11:00 EST<br />
+<br />
+<span class='raw_line'>2018-02-14 01:16:57 EST: <b><a href='?c=raw&amp;limit=&amp;call=SUNLGT'>SUNLGT</a></b>&gt;BEACON,WIDE2-1,qAR,<a href='http://aprs.fi/?c=raw&amp;limit=&amp;call=GWS'>GWS</a>:T#363,13.5,13.9,2.77,2.85,13.5,00001110</span><br />
+   type: telemetry<br />
+   srccallsign: SUNLGT<br />
+   dstcallsign: BEACON<br />
+   telemetry:<br />
+      sequence: 363<br />
+      values: 13.5, 13.9, 2.77, 2.85, 13.5<br />
+      bits: 00001110<br />
+<br />
+</div></div><script type='text/JavaScript'>
+//<![CDATA[
+upd_el('status', 'Found over 50 packets. 188 seconds between packets on average during 12601 seconds. Lookup took 0.027 seconds.');
+upd_el('browselinks', ' <a class="button button_default button_medium" href="?c=raw&amp;limit=50&amp;call=SUNLGT&amp;view=decoded&amp;last=4106926670" rel="nofollow">&lt; previous</a>');
+//]]>
+</script>
+<div class='text indent' style='margin: 5px;'> <a class="button button_default button_medium" href="?c=raw&amp;limit=50&amp;call=SUNLGT&amp;view=decoded&amp;last=4106926670" rel="nofollow">&lt; previous</a></div>
+<div class="linkfooter">
+ <a href='/page/faq'>FAQ</a>
+· <a href='http://blog.aprs.fi/'>Blog</a>
+· <a href='https://groups.google.com/forum/#!forum/aprsfi'>Discussion group</a>
+· <a href='/page/linking'>Linking to aprs.fi</a>
+· <a href='/page/ais_sites'>AIS sites</a>
+· <a href='/service-status/'>Service status</a>
+· <a href='/stats/daily'>Database statistics</a>
+· <a href='/page/advertising'>Advertising on aprs.fi</a>
+· <a href='/page/about_technical'>Technical details</a>
+· <a href='/page/api'>API</a>
+· <a href='/page/changelog'>Change log</a>
+· <a href='/page/todo'>Planned changes</a>
+· <a href='/page/credits'>Credits and thanks</a>
+· <a href='/page/tos'>Terms Of Service</a>
+· <a href='https://geo.itunes.apple.com/app/aprs.fi/id922155038?mt=8&at=1000la28&pt=2223203&ct=aprsfi'>iPhone/iPad APRS</a>
+
+</div>
+
+</body>
+</html>
