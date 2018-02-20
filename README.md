@@ -13,29 +13,29 @@ The hardware used to implement this program included:
 
 ## Index
 pharah
-  > aprs
-    > direct
-      > direwolf\_parse.sh
-        > a simple bash script to standardize the output of the Direwolf software (link below)
-    > indirect
-      > aprs\_fi\_parse.sh
-        > another simple bash script to retrieve and parse data from aprs.fi
-      > current\_packets.html
-        > placeholder file for the data retrieved from aprs.fi
-    > raw
-      > aprs\_parse
-        > binary file
-      > aprs\_parse.c
-        > c program that parses the raw bytes of an APRS packet. This was not actually implemented, but simply made just in case.
-      > test\_packet
-        > a simple format of a APRS packet for testing purposes on the raw parser
- > ref
-    > aprs\_ax25.md
-      > a blurb about AX.25 UI frames extracted from the APRS guide.
-    > aprs\_ax25.png
-      > a PNG to complement the above reference.
-    > direwolf\_output.txt
-      > sample output from the Direwolf program.
+  - aprs
+    - direct
+      - direwolf\_parse.sh
+        - a simple bash script to standardize the output of the Direwolf software (link below)
+    - indirect
+      - aprs\_fi\_parse.sh
+        - another simple bash script to retrieve and parse data from aprs.fi
+      - current\_packets.html
+        - placeholder file for the data retrieved from aprs.fi
+    - raw
+      - aprs\_parse
+        - binary file
+      - aprs\_parse.c
+        - c program that parses the raw bytes of an APRS packet. This was not actually implemented, but simply made just in case.
+      - test\_packet
+        - a simple format of a APRS packet for testing purposes on the raw parser
+ - ref
+    - aprs\_ax25.md
+      - a blurb about AX.25 UI frames extracted from the APRS guide.
+    - aprs\_ax25.png
+      - a PNG to complement the above reference.
+    - direwolf\_output.txt
+      - sample output from the Direwolf program.
       
 ## References
 1. https://github.com/wb2osz/direwolf
