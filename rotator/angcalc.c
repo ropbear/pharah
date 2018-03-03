@@ -8,6 +8,7 @@ plane and the y-z plane the rotator must move to.
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <angcalc.h>
 
 //GLOBALS
 #define TYPE "deg"
@@ -22,24 +23,7 @@ double latcalc (double latA, double latB);
 double haversine (double latA, double longA, double latB, double longB);
 double diffx (double dxz, double dz);
 double diffy (double dxz, double dy);
-
-
-//MAIN
-int main (int argc, char * argv)
-{
-	if (argc != 7) {
-		printf("Usage: %s latA longA altA latB longB altB\n", argv[0]);
-		exit(0);
-	}
-	
-	double dxz = haversine(argv[1],argv[2],argv[4],argv[5]);
-	double dy = altcalc(argv[3], argv[6]);
-	double dz = latcalc(argv[1], argv[4]);
-
-	printf("(%f,%f)\n",diffx(dxz,dz),diffy(dxz,dy));
-	return 0;
-}
-
+int angcalc(double latA, double longA, double altA, double latB, double longB, double altB);
 
 //FUNCTIONS
 double deg (double rad)
@@ -85,5 +69,17 @@ double diffx (double dxz, double dz)
 double diffy (double dxz, double dy)
 {
 	return atan(dy/dxz);
+}
+
+struct APRS_tuple angcalc(double latA, double longA, double altA, double latB, double longB, double altB)
+{	
+	struct APRS_tuple tup;
+	double dxz = haversine(latA,longA,latB,longB);
+	double dy = altcalc(altA, altB);
+	double dz = latcalc(latA, latB);
+
+	tup.degx = diffx(dxz,dz);
+	tup.degy = diffy(dxz,dy);
+	return tup;
 }
 
