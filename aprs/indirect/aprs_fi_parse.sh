@@ -19,5 +19,5 @@ LAT=`cat current_packets.html | grep "latitude" | head -n 1 | cut -d " " -f 2`
 ALT=`cat current_packets.html | grep "altitude" | head -n 1 | cut -d " " -f 2`
 SPEED=`cat current_packets.html | grep "speed" | head -n 1 | cut -d " " -f 2`
 COURSE=`cat current_packets.html | grep "course" | head -n 1 | cut -d " " -f 2`
-echo -e "Latitude: ${LONG}\nLongtitude: ${LAT}\nAltitude: ${ALT}\nSpeed: ${SPEED}\nCourse: ${COURSE}"
+echo -e "Latitude: ${LONG}\nLongtitude: ${LAT}\nAltitude: ${ALT}\nSpeed: ${SPEED}\nCourse: ${COURSE}#\n"
 

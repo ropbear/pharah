@@ -12,6 +12,6 @@ ALT=`echo $LINE | cut -d "," -f 5 | cut -d " " -f 3`
 TEL=`echo $LINE | cut -d "," -f 3`
 COURSE=`echo $LINE | cut -d "," -f 4 | cut -d " " -f 3`
 
-echo -e "Latitude: ${LONG}\nLongtitude:${LAT}\nAltitude: ${ALT} ft\nSpeed:${TEL}\nCourse: ${COURSE} Degrees"
+echo -e "Latitude: ${LONG}\nLongtitude: ${LAT}\nAltitude: ${ALT}\nSpeed: ${TEL}\nCourse: ${COURSE}#\n"
 
 

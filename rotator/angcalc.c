@@ -8,7 +8,7 @@ plane and the y-z plane the rotator must move to.
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include <angcalc.h>
+#include "angcalc.h"
 
 //GLOBALS
 #define TYPE "deg"
@@ -23,7 +23,7 @@ double latcalc (double latA, double latB);
 double haversine (double latA, double longA, double latB, double longB);
 double diffx (double dxz, double dz);
 double diffy (double dxz, double dy);
-int angcalc(double latA, double longA, double altA, double latB, double longB, double altB);
+struct APRS_tuple angcalc(double latA, double longA, double altA, double latB, double longB, double altB);
 
 //FUNCTIONS
 double deg (double rad)
@@ -49,7 +49,7 @@ double latcalc (double latA, double latB)
 
 double haversine (double latA, double longA, double latB, double longB)
 {
-	double phi1, phi2, dphi, dlambda, a, c, R;
+	double phi1, phi2, dphi, dlambda, a, c;
 	
 	phi1 = rad(latA);
 	phi2 = rad(latB);
@@ -58,7 +58,7 @@ double haversine (double latA, double longA, double latB, double longB)
 
 	a = (sin(dphi/2) * sin(dphi/2)) + (cos(phi1) * cos(phi2) * sin(dlambda/2) * sin(dlambda/2));
 	c = 2 * atan2(sqrt(a),sqrt(1-a));
-	return R * c;
+	return RADIUS * c;
 }
 
 double diffx (double dxz, double dz)
