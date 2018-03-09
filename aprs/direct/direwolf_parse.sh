@@ -12,6 +12,6 @@ ALT=`echo $LINE | cut -d "," -f 5 | cut -d " " -f 3`
 TEL=`echo $LINE | cut -d "," -f 3`
 COURSE=`echo $LINE | cut -d "," -f 4 | cut -d " " -f 3`
 
-echo -e "Latitude: ${LONG}\nLongtitude: ${LAT}\nAltitude: ${ALT}\nSpeed: ${TEL}\nCourse: ${COURSE}#\n"
-
+echo -e "Latitude: ${LONG}\nLongtitude: ${LAT}\nAltitude: ${ALT}\n#Speed: ${TEL}\nCourse: ${COURSE}#\n"
+#stops on the first '#' character
 
