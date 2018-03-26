@@ -65,9 +65,8 @@ int main (int argc, char * argv[])
 				break;
 
 			case '\n' :
-				printf("%f,%f,%f\n",aprsLAT,aprsLONG,aprsALT);
 				mov = angcalc(STAT_LAT,STAT_LONG,STAT_ALT,aprsLAT,aprsLONG,aprsALT);
-				printf("%f,%f\n",mov.degx,mov.degy);
+				printf("%f,%f\n",mov.degx,mov.degy); //print for testing purposes
 				//rotate(mov); //TODO: Error handling
 				enabled = 0;
 

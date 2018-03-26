@@ -36,7 +36,20 @@ pharah
       - a PNG to complement the above reference.
     - direwolf\_output.txt
       - sample output from the Direwolf program.
-      
+	- rotator
+		- angcalc.c
+			- angle caculations
+		- angcalc.h
+			- header file containing APRS tuple
+		- current_packets.html
+			- can be ignored, 
+		- main.c
+			- Main for the rotator
+		- RC2800PRKX2SU
+			- a CSV of commands for the model of rotator specified by the filename
+		- rotate
+			- compile with `gcc angcalc.c main.c -o rotate -lm`
+
 ## References
 1. https://github.com/wb2osz/direwolf
   > Tool utilized to parse APRS packets coming from RTL-SDR on the Raspberry Pi station.
