@@ -6,7 +6,7 @@
 #for robust locating capabilities when combined with
 #the direct direwolf parser.
 
-callsign="SQ1FYB-15"
+callsign=""
 limit=1000
 view="decoded"
 page="raw"
@@ -14,10 +14,11 @@ url="https://aprs.fi/?c=$page&call=$callsign&limit=$limit&view=$view"
 
 curl -s -o current_packets.html "$url"
 
-LONG=`cat current_packets.html | grep "longitude" | head -n 1 | cut -d " " -f 2`
-LAT=`cat current_packets.html | grep "latitude" | head -n 1 | cut -d " " -f 2`
-ALT=`cat current_packets.html | grep "altitude" | head -n 1 | cut -d " " -f 2`
-SPEED=`cat current_packets.html | grep "speed" | head -n 1 | cut -d " " -f 2`
-COURSE=`cat current_packets.html | grep "course" | head -n 1 | cut -d " " -f 2`
-echo -e "Latitude: ${LONG}\nLongtitude: ${LAT}\nAltitude: ${ALT}\n#Speed: ${SPEED}\nCourse: ${COURSE}#\n"
-#stops on the first '#' character
+LONG=`cat current_packets.html | grep "longitude:" | head -n 1 | cut -d " " -f 2`
+LAT=`cat current_packets.html | grep "latitude:" | head -n 1 | cut -d " " -f 2`
+ALT=`cat current_packets.html | grep "altitude:" | head -n 1 | cut -d " " -f 2`
+SPEED=`cat current_packets.html | grep "speed:" | head -n 1 | cut -d " " -f 2`
+COURSE=`cat current_packets.html | grep "course:" | head -n 1 | cut -d " " -f 2`
+#echo -e "Latitude: ${LAT}\nLongtitude: ${LONG}\nAltitude: ${ALT}\n#Speed: ${SPEED}\n#Course: ${COURSE}\n"
+echo -e "${LAT},${LONG},${ALT},"
+#parser stops on the first '#' character, second one is just for show

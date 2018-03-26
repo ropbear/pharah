@@ -1,3 +1,8 @@
+/*
+PURPOSE:
+This header file exists to provide the APRS_tuple to the other files.
+*/
+
 #ifndef ANGCALC_H_
 #define ANGCALC_H_
 

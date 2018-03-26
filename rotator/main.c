@@ -28,56 +28,53 @@ the specificied COM port.
 
 int main (int argc, char * argv[]) 
 {
-	int fd, exit_code, c, recvDATA, param, i, enabled;
+	int fd, exit_code, c, param, i, enabled;
 	double aprsLAT,aprsLONG,aprsALT;
 	char databuff[APRS_BUFFSIZE];
 	char *ptr;
 	struct APRS_tuple mov;
 
 	enabled = 1;
-	exit_code = 0;
-	fd = open(COMFILE, O_RDWR);
-	i = recvDATA = param = 0;
+	fd = open(COMFILE, O_RDWR); //TODO implement rotator communication
+	i = exit_code = param = 0;
+
+	memset(&databuff,0,APRS_BUFFSIZE*sizeof(char));
 
 	while (enabled && (c = getchar()) != EOF) /* Loop until APRS breaks pipe or err */
 	{
-		if (recvDATA) {
-			databuff[i++] = c;
-		}
-		else {
-				memset(databuff,0,APRS_BUFFSIZE*sizeof(char));
-		}
+		databuff[i++] = c;
+		
 		switch (c) {
-			case ':' : /* start recording input */
-				recvDATA = 1;
-				getchar(); /* grab ' ' character */
-				i = 0;
-			case '\n' : /* stop recording input */
-				printf("Newline %s\n", databuff);
+			case ',' : /* stop recording input */
 				switch (param) {
 					case 0 :
 						aprsLAT = strtod(databuff,&ptr);
+						break;
 					case 1 :
 						aprsLONG = strtod(databuff,&ptr);
+						break;
 					case 2 :
 						aprsALT = strtod(databuff,&ptr);
+						break;
 					default :
 						continue;
 				}
 				param++; /* increment here to avoid switch statement errors */
-				recvDATA = 0;
-				i = 0;
-			case '#' :
+				i = 0; /* reset the index of databuff */
+				memset(&databuff,0,APRS_BUFFSIZE*sizeof(char)); /* clear the buffer */
+				break;
+
+			case '\n' :
 				printf("%f,%f,%f\n",aprsLAT,aprsLONG,aprsALT);
 				mov = angcalc(STAT_LAT,STAT_LONG,STAT_ALT,aprsLAT,aprsLONG,aprsALT);
 				printf("%f,%f\n",mov.degx,mov.degy);
 				//rotate(mov); //TODO: Error handling
-				//TODO: Status query
 				enabled = 0;
+
 			default :
 				continue;
 		}	
-	} //TODO: Error handling
+	}
 	return exit_code;
 }
 
