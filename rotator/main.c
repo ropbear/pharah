@@ -12,19 +12,29 @@ the specificied COM port.
 #include <stdlib.h>
 #include <string.h>
 
-#define ROTATE "APn(-)xxx(.y)\r" /* where 'n' is any integer, 'xxx' is the degrees, and 'y' is the decimal value to the tenth.
-																	Anything in the () is optional.*/
-#define STOP "Stn ;" /* where 'n' is any integer */
-#define STATUS "Bin ;" /* where 'n' is any integer */
+/*TODO: Implement control of rotator.
+	======================
+	Globals:
+
+	#define ROTATE "APn(-)xxx(.y)\r"
+	#define STOP "Stn ;" 
+	#define STATUS "Bin ;" 
+
+	where 'n' is any integer, 'xxx' is the degrees, and 'y' is the decimal value to the tenth.
+	Anything in the () is optional.
+	======================
+*/
+
 #define COMFILE "/dev/tty0" /* File in /dev to which the console is connected */
 #define APRS_BUFFSIZE 100 /* Buffer size for incoming APRS data */
 #define STAT_LAT 41.390565 /* station's latitude */
 #define STAT_LONG -73.955569 /* station's longtitude */
 #define STAT_ALT 400.43 /* station's altitude */
 
-//int rotate(struct APRS_tuple deg); /* function to rotate 'deg' degrees */
-//int stop(); /* function to stop rotator movement */
-//int status(); /* function to request status of rotator */
+int rotate(struct APRS_tuple deg); //function to rotate 'deg' degrees
+int stop(); //function to stop rotator movement
+int status(); //function to request status of rotator
+
 
 int main (int argc, char * argv[]) 
 {
@@ -45,15 +55,15 @@ int main (int argc, char * argv[])
 		databuff[i++] = c;
 		
 		switch (c) {
-			case ',' : /* stop recording input */
+			case ',': /* stop recording input */
 				switch (param) {
-					case 0 :
+					case 0:
 						aprsLAT = strtod(databuff,&ptr);
 						break;
-					case 1 :
+					case 1:
 						aprsLONG = strtod(databuff,&ptr);
 						break;
-					case 2 :
+					case 2:
 						aprsALT = strtod(databuff,&ptr);
 						break;
 					default :
@@ -64,10 +74,11 @@ int main (int argc, char * argv[])
 				memset(&databuff,0,APRS_BUFFSIZE*sizeof(char)); /* clear the buffer */
 				break;
 
-			case '\n' :
+			case '\n':
 				mov = angcalc(STAT_LAT,STAT_LONG,STAT_ALT,aprsLAT,aprsLONG,aprsALT);
 				printf("%f,%f\n",mov.degx,mov.degy); //print for testing purposes
-				//rotate(mov); //TODO: Error handling
+
+				//rotate(mov); TODO implement rotator control
 				enabled = 0;
 
 			default :
@@ -75,5 +86,19 @@ int main (int argc, char * argv[])
 		}	
 	}
 	return exit_code;
+}
+
+int rotate(struct APRS_tuple deg)
+{
+	return 0;
+}
+
+int stop(void)
+{
+	return 0;
+}
+int status(void)
+{
+	return 0;
 }
 

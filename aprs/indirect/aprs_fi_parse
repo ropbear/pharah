@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#aprs_fi_parse
+#Purpose: Locate and parse the telemetry output from 
+#https://aprs.fi/?c=raw
+#in order to properly position the antenna. This allows
+#for robust locating capabilities when combined with
+#the direct direwolf parser.
+
+callsign=""
+limit=1000
+view="decoded"
+page="raw"
+url="https://aprs.fi/?c=$page&call=$callsign&limit=$limit&view=$view"
+
+curl -s -o current_packets "$url"
+
+LONG=`grep "longitude:" current_packets | head -n 1 | cut -d " " -f 2`
+LAT=`grep "latitude:" current_packets | head -n 1 | cut -d " " -f 2`
+ALT=`grep "altitude:" current_packets | head -n 1 | cut -d " " -f 2`
+
+rm current_packets
+
+echo -e "${LAT},${LONG},${ALT},"

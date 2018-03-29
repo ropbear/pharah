@@ -15,13 +15,11 @@ The hardware used to implement this program included:
 pharah
   - aprs
     - direct
-      - direwolf\_parse.sh
+      - direwolf\_parse
         - a simple bash script to standardize the output of the Direwolf software (link below)
     - indirect
-      - aprs\_fi\_parse.sh
+      - aprs\_fi\_parse
         - another simple bash script to retrieve and parse data from aprs.fi
-      - current\_packets.html
-        - placeholder file for the data retrieved from aprs.fi
     - raw
       - aprs\_parse
         - binary file
@@ -41,8 +39,6 @@ pharah
 			- angle caculations
 		- angcalc.h
 			- header file containing APRS tuple
-		- current_packets.html
-			- can be ignored, 
 		- main.c
 			- Main for the rotator
 		- RC2800PRKX2SU

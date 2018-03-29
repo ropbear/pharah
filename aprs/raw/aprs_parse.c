@@ -1,14 +1,19 @@
 /* 
-APRS Parser
-Purpose: Recieve packets from stdin and parse out the relevant
+aprs_parse.c
+PURPOSE: 
+Recieve packets from stdin and parse out the relevant
 data, printing it to stdout in the CSV form "dest,src,dgpt,data" on
 each line for each packet.
+
+THIS IS NOT FOR PRACTICAL USE.
+More robust APRS packet parsers are out there.
+The main idea behind this is to get an idea of how the parsing works
+at a low level. Please see the documents in pharah/ref/ for more info.
 
 References:
 https://www.tapr.org/pdf/AX25.2.2.pdf (Excerpt included in pharah/ref/)
 	> Provided information about bit sequence in the frame,
 	> as well as the Frame Check Sequence.
-
 */
 
 #include <stdio.h>
@@ -24,18 +29,19 @@ https://www.tapr.org/pdf/AX25.2.2.pdf (Excerpt included in pharah/ref/)
 #define CTLFLAG 0x03 //The Control field and Protocol ID will always be 0x03...
 #define PIDFLAG 0xf0 // ...and 0xf0
 
-void error_handle (char * error_string);
+void error_handle (char * location, char * error_string);
 void print_packet (char * dest,char * src, char * dgpt, char * data);
 int recieve(void);
 
 int main (int argc, char * argv[]) 
 {
+	printf("APRS Parser v1.0.0\n");
 	return recieve();
 }
 
-void error_handle (char * error_string)
+void error_handle (char * location, char * error_string)
 {
-	printf("%s",error_string);
+	printf("[!!] In %s :\n%s\n",error_string);
 	exit(1);
 }
 
@@ -58,35 +64,33 @@ int recieve (void)
 	memset(dgpt, 0x00, DGPT_MAX);
 	memset(data, 0x00, DATA_MAX);
 
-	int c,findex,i,throughput;
-	int recv,addr,mid,info;
-
-	findex = throughput = 0;
-	addr = 1; // addr mode will be the first to be exec once a flag is found
-	recv = mid = info = 0; /* RECV is high when packet data is coming in,
-														MID is high when the CTLFLAG has been detected.
-														INFO is high when the PIDFLAG has been detected
-															and the data section can be parsed.
-												 */ 
+	int c, findex, throughput = 0;
+	int addr = 1; // addr mode will be the first to be exec once a flag is found
+	int recv, mid, info = 0;
+	/*
+	RECV is high when packet data is coming in,
+	MID is high when the CTLFLAG has been detected.
+	INFO is high when the PIDFLAG has been detected
+	  and the data section can be parsed.
+	*/ 
 
 	while ((c = getchar()) != EOF) {
-		if (1 == recv) {
-			if (1 == addr) {
+		if (recv == 1) {
+			if (addr == 1) {
 				if (c == CTLFLAG) {
 					mid = 1;
 				}
 				else if (c == PIDFLAG && mid == 1) {
-					addr = 0;
+					addr = findex = 0;
 					info = 1;
-					findex = 0;
 				}
 				else if (findex < DGPT_MAX + (2*ADDR_MAX)) {
-					switch ((findex)/ADDR_MAX) {
+					switch (findex/ADDR_MAX) {
 						case 0 : 
-							dest[findex++] = c; //parse the first 7 bytes to the DEST buffer
+							dest[findex++] = c; //parse the first ADDR_MAX bytes to the DEST buffer
 							break;
 						case 1 : 
-							src[((findex++)%ADDR_MAX)] = c; //next 7 go to source
+							src[((findex++)%ADDR_MAX)] = c; //next ADDR_MAX go to source
 							break;
 						default :
 							dgpt[((findex++)-(ADDR_MAX*2))] = c; //and the final 0-56 go to dgpt
@@ -96,12 +100,11 @@ int recieve (void)
 				}
 				else {
 					//reached maximum addr field index
-					addr = 0;
-					findex = 0;
+					addr = findex = 0;
 					info = 1;
 				}
 			}
-			else if (1 == info && findex < DATA_MAX) {
+			else if (info == 1 && findex < DATA_MAX) {
 				if (c == FLAG) { //tail flag found, print packet.
 					print_packet(dest,src,dgpt,data);
 					recv = 0;
@@ -110,8 +113,8 @@ int recieve (void)
 				data[findex++] = c;
 			}
 			else {
-				recv = 0; //reached packet size limit, not a packet. RST.
-				error_handle("[!!] Error during listen.\n");
+				recv = 0; //Not an APRS packet, ignore it and let the user know.
+				error_handle("recv","[!!] Error while receiving packet. Check if the packet is formatted correctly.");
 			}
 		}
 		else if (c == FLAG) {

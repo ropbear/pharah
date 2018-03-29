@@ -1,5 +1,5 @@
 #!/bin/bash
-#Direwolf Parser
+#direwolf_parse
 #Purpose: Locate and parse the telemetry output from the Direwolf SDR
 #program in order to properly position the antenna. The packet will be
 #in AX.25 UI frame format, utilizing the APRS protocol.
@@ -12,6 +12,4 @@ ALT=`echo $LINE | cut -d "," -f 5 | cut -d " " -f 3`
 TEL=`echo $LINE | cut -d "," -f 3`
 COURSE=`echo $LINE | cut -d "," -f 4 | cut -d " " -f 3`
 
-echo -e "Latitude: ${LONG}\nLongtitude: ${LAT}\nAltitude: ${ALT}\n#Speed: ${TEL}\nCourse: ${COURSE}#\n"
-#stops on the first '#' character
-
+echo -e "${LAT},${LONG},${ALT},"
