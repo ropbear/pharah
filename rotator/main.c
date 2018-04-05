@@ -7,45 +7,41 @@ the specificied COM port.
 */
 
 #include <stdio.h>
-#include <fcntl.h>
-#include "angcalc.h"
 #include <stdlib.h>
 #include <string.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include "angcalc.h"
+#include "rotator.h"
 
-/*TODO: Implement control of rotator.
-	======================
-	Globals:
 
-	#define ROTATE "APn(-)xxx(.y)\r"
-	#define STOP "Stn ;" 
-	#define STATUS "Bin ;" 
+#define ACOM "COM0" /* fd for COM port associated with azimuth control */
+#define ECOM "COM1" /* fd for COM port associated with eleveation control */
 
-	where 'n' is any integer, 'xxx' is the degrees, and 'y' is the decimal value to the tenth.
-	Anything in the () is optional.
-	======================
-*/
-
-#define COMFILE "/dev/tty0" /* File in /dev to which the console is connected */
+/* Elevation and azimuth delta calculation globals */
 #define APRS_BUFFSIZE 100 /* Buffer size for incoming APRS data */
 #define STAT_LAT 41.390565 /* station's latitude */
 #define STAT_LONG -73.955569 /* station's longtitude */
 #define STAT_ALT 400.43 /* station's altitude */
 
-int rotate(struct APRS_tuple deg); //function to rotate 'deg' degrees
-int stop(); //function to stop rotator movement
-int status(); //function to request status of rotator
-
+int rotate(int afd, int efd, struct APRS_tuple deg); //function to rotate 'deg' degrees
+int stop(int afd, int efd); //function to stop rotator movement
+int status(int afd, int efd); //function to request status of rotator
+int reset(int afd, int efd); //function to reset the rotator to its default position
+//TODO make azimuth fd and elevation fd globals
 
 int main (int argc, char * argv[]) 
 {
-	int fd, exit_code, c, param, i, enabled;
+	int exit_code, c, param, i, enabled;
 	double aprsLAT,aprsLONG,aprsALT;
 	char databuff[APRS_BUFFSIZE];
 	char *ptr;
 	struct APRS_tuple mov;
 
+	int azimuth = open(ACOM, O_RDWR);
+	int elevation = open(ECOM, O_RDWR);
+
 	enabled = 1;
-	fd = open(COMFILE, O_RDWR); //TODO implement rotator communication
 	i = exit_code = param = 0;
 
 	memset(&databuff,0,APRS_BUFFSIZE*sizeof(char));
@@ -76,29 +72,72 @@ int main (int argc, char * argv[])
 
 			case '\n':
 				mov = angcalc(STAT_LAT,STAT_LONG,STAT_ALT,aprsLAT,aprsLONG,aprsALT);
-				printf("%f,%f\n",mov.degx,mov.degy); //print for testing purposes
-
-				//rotate(mov); TODO implement rotator control
+				if(0 != rotate(azimuth,elevation,mov)) goto error;
 				enabled = 0;
 
 			default :
 				continue;
 		}	
 	}
-	return exit_code;
+	return 0;
+
+//TODO Implement error messages
+error:
+	return 1;
 }
 
-int rotate(struct APRS_tuple deg)
+/*
+The functions below must change if the model of the antenna control unit changes.
+Please reference rotator.h for more information.
+*/
+
+//TODO Implement status loops before returning
+
+int rotate(int azimuth, int elevation, struct APRS_tuple deg)
 {
+	/* Tuple is in form (azimuth,elevation) */
+	int chars = 5; //these aren't magic numbers, they are the number of chars in the cmd
+	int rotsize = 5+chars;
+	char a[chars]; 
+	char e[chars];
+	memset(&a,0,chars*sizeof(char));
+	memset(&e,0,chars*sizeof(char));
+
+	//commands can be sent in parallel, they are two different systems
+	if(-1 == write(azimuth,RC28_ROT(ftoa(deg->degx,a,RC28_PRECISION)),rotsize)) goto error;
+	if(-1 == write(elevation,RC28_ROT(ftoa(deg->degy,e,RC28_PRECISION)),rotsize)) goto error;
+	
 	return 0;
+error:
+	return 1;
 }
 
-int stop(void)
+int stop(int azimuth, int elevation)
 {
+	if(-1 == write(azimuth,RC28_STOP,sizeof(RC28_STOP))) goto error;
+	if(-1 == write(elevation,RC28_STOP,sizeof(RC28_STOP))) goto error;
+
 	return 0;
+error:
+	return 1;
 }
-int status(void)
+int status(int azimuth, int elevation)
 {
+	if(-1 == write(azimuth,RC28_STAT,sizeof(RC28_STAT))) goto error;
+	if(-1 == write(elevation,RC28_STAT,sizeof(RC28_STAT))) goto error;
+
 	return 0;
+error:
+	return 1;
+}
+
+int reset(int azimuth, int elevation)
+{
+	if(-1 == write(azimuth,RC28_RST,sizeof(RC28_RST))) goto error;
+	if(-1 == write(elevation,RC28_RST,sizeof(RC28_RST))) goto error;
+
+	return 0;
+error:
+	return 1;
 }
 
