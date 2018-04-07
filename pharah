@@ -1,0 +1,62 @@
+#!/usr/bin/python3
+
+'''
+pharah
+PURPOSE:
+Integrating subcomponents into a single comprehensive program, pharah recieves APRS data
+via two different channels (direct and indirect), calculates the necessary change in angle,
+and rotates the antenna control unit appropriately.
+'''
+
+#IMPORTS
+import os
+import sys
+#GLOBALS
+
+class Pharah:
+	def __init__(self,flags,argc):
+		if(argc >= 2 and flags[2] == '-p'):
+			self.upkeep = True
+
+		self.indirect = "./aprs/indirect/aprs_fi_parse"
+		self.direct = "./aprs/direct/direwolf_parse"
+		self.rotator = "./rotator/rotate"
+		self.logdir = "./data/logs/"
+
+	def log(self):
+		return 0
+
+	def channel_handler(self,):
+		#balance the incoming traffic from both indirect and direct
+		return 0
+
+	def upkeep(self):
+		#only active if option is specified
+		return 0
+
+	def comcheck(self):
+		#find COM ports for rotator
+		return 0
+
+	def run(self):
+		print("[#] Starting...")
+		self.exit(0)
+
+	def exit(self,exitcode):
+		if(exitcode == 0):
+			print("[#] Bye!")
+		else:
+			print("[!!] Exit on error.")
+		sys.exit(exitcode)
+
+if __name__ == '__main__':
+
+	print('''Pharah v0.0.9 (beta)
+Author: stonepresto
+''')
+	argc = len(sys.argv)
+	if(argc != 2):
+		print("[#] Use -p option to automatically restart if an error is detected.")
+
+	pharah = Pharah(sys.argv,argc)
+	pharah.run()
