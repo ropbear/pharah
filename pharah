@@ -61,6 +61,7 @@ class Pharah:
         self.logfile = open(self.logfilename,'w+')
         self.logid = 0
 
+
     def upkeep(self):
         try:
             while True:
@@ -72,10 +73,12 @@ class Pharah:
         return 0
 
 
-    def serialports(self): #TODO implement serial port auto-assignment
+#TODO: Implement auto-dection of serial ports
+    def serialports(self):
         #find COM ports for rotator, excluding current terminal
         #Thank you Thomas! All credit goes to him for this function.
         #https://stackoverflow.com/users/300783/thomas
+####
 
         ports = glob.glob('/dev/tty[A-Za-z]*')#TODO test COM ports
         result = []
@@ -111,7 +114,7 @@ class Pharah:
 
 
     @newThread
-    def run(self):#TODO
+    def run(self):
         if(self.callsign == ""):
             self.help()
             self.exit(0)
@@ -142,9 +145,11 @@ class Pharah:
 
         self.exit(0)
 
+
     def comment(self,comcode):
         if self.verbose: print("[#] No data recieved")
         return ""
+
 
     def exit(self,exitcode):
         if exitcode == 1:
