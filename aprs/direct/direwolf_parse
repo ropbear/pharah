@@ -3,7 +3,12 @@
 #Purpose: Locate and parse the telemetry output from the Direwolf SDR
 #program in order to properly position the antenna. The packet will be
 #in AX.25 UI frame format, utilizing the APRS protocol.
-
+if [ -z "$1" ]
+then
+	echo "[#] Usage: ./direwolf_parse <callsign>"
+	exit 1
+fi
+callsign=$1
 LINE=`grep "N "`
 
 LONG=`echo $LINE | cut -d "," -f 1`

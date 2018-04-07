@@ -11,52 +11,180 @@ and rotates the antenna control unit appropriately.
 #IMPORTS
 import os
 import sys
-#GLOBALS
+import subprocess
+import serial
+import glob
+import threading
+from datetime import datetime
+from time import sleep
+
+def newThread(f):
+    def wrapper(*args, **kwargs):
+        thr = threading.Thread(target=f, args=args, kwargs=kwargs)
+        thr.start()
+    return wrapper
 
 class Pharah:
-	def __init__(self,flags,argc):
-		if(argc >= 2 and flags[2] == '-p'):
-			self.upkeep = True
+    def __init__(self,flags,argc):
+        self.options = ['-h','-p','-i','-l','-v']
+        self.interval = 5
+        self.upkeep = False
+        self.nolog = True
+        self.verbose = False
 
-		self.indirect = "./aprs/indirect/aprs_fi_parse"
-		self.direct = "./aprs/direct/direwolf_parse"
-		self.rotator = "./rotator/rotate"
-		self.logdir = "./data/logs/"
+        if argc >= 2:
+            if flags[1] in self.options:
+                self.callsign = ""
+            else:
+                self.callsign = flags[1]
+            if '-p' in flags:
+                self.upkeep = True
+            if '-h' in flags:
+                self.help()
+                self.exit(0)
+            if '-i' in flags:
+                self.interval = int(flags[flags.index('-i')+1])
+            if '-l' in flags:
+                self.nolog = False
+            if '-v' in flags:
+                self.verbose = True
+        else:
+            self.callsign = ""
 
-	def log(self):
-		return 0
 
-	def channel_handler(self,):
-		#balance the incoming traffic from both indirect and direct
-		return 0
+        self.indirect = "./aprs/indirect/aprs_fi_parse"
+        self.direct = "./aprs/direct/direwolf_parse"
+        self.direct_process = subprocess.Popen([self.direct,self.callsign], stdout=subprocess.PIPE)
+        self.rotator = "./rotator/"
+        self.logdir = "./data/logs/"
+        self.logfilename = self.logdir+str(datetime.now().timestamp()).split('.')[0]+".log"
+        self.logfile = open(self.logfilename,'w+')
+        self.logid = 0
 
-	def upkeep(self):
-		#only active if option is specified
-		return 0
+    def upkeep(self):
+        try:
+            while True:
+                self.run()
+                threads = threading.enumerate()
+                child = threads[1].join()
+        except:
+            self.exit(2)
+        return 0
 
-	def comcheck(self):
-		#find COM ports for rotator
-		return 0
 
-	def run(self):
-		print("[#] Starting...")
-		self.exit(0)
+    def serialports(self): #TODO implement serial port auto-assignment
+        #find COM ports for rotator, excluding current terminal
+        #Thank you Thomas! All credit goes to him for this function.
+        #https://stackoverflow.com/users/300783/thomas
 
-	def exit(self,exitcode):
-		if(exitcode == 0):
-			print("[#] Bye!")
-		else:
-			print("[!!] Exit on error.")
-		sys.exit(exitcode)
+        ports = glob.glob('/dev/tty[A-Za-z]*')#TODO test COM ports
+        result = []
+        for port in ports:
+            try:
+                s = serial.Serial(port)
+                s.close()
+                result.append(port)
+            except (OSError, serial.serialutil.SerialException):
+                pass
+        return result #TODO remove RTL-SDR com port
+
+
+    def rotate_setup(self):
+        try:
+            if not os.path.isfile(self.rotator+'rotate'):
+                err = subprocess.Popen(['gcc',self.rotator+'main.c',self.rotator+'angcalc.c','-o',self.rotator+'rotate','-lm'],stderr=subprocess.PIPE)                
+                if err != "":
+                    self.exit(3)
+        except:
+            self.exit(3)
+        return 0
+
+
+    def get_aprs(self):
+        direct = ""
+        try:
+            direct = self.direct_process.communicate(timeout=5)[0].decode('utf-8')
+        except subprocess.TimeoutExpired:
+            if self.verbose: print("[#] Nothing on direct, checking indirect.")
+        indirect = subprocess.Popen([self.indirect,self.callsign], stdout=subprocess.PIPE)
+        return (direct,indirect.stdout.read().decode('utf-8'))
+
+
+    @newThread
+    def run(self):#TODO
+        if(self.callsign == ""):
+            self.help()
+            self.exit(0)
+
+        if self.verbose: print("[#] Using %s" % self.callsign)
+        self.logfile.write(self.callsign)
+        
+        self.rotate_setup()
+        rotate_process = subprocess.Popen([self.rotator+'rotate'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+
+        out = ""
+        while out == "":
+            if self.verbose: print("[#] Retrieving APRS data")
+            d, i = self.get_aprs()
+            #always prefer direct over indirect
+            message = (d if d != ",,," else (i if i != ",,," else self.comment(1)))
+            self.logfile.write(str(self.logid)+'\t\t'+datetime.now().isoformat('-')+'\t\t'+message)
+            self.logid += 1
+
+            try:
+                #program will exit if anything is printed to stdout
+                if self.verbose: print("[#] Rotating")
+                out, err = rotate_process.communicate(message,5)
+            except TimeoutExpired:
+                #the rotator process runs continuously
+                pass
+            sleep(self.interval)
+
+        self.exit(0)
+
+    def comment(self,comcode):
+        if self.verbose: print("[#] No data recieved")
+        return ""
+
+    def exit(self,exitcode):
+        if exitcode == 1:
+            if self.verbose: print("[!!] Exit on error.")
+        elif exitcode == 2:
+            if self.verbose: print("[!!] Error in upkeep multithreading.")
+        elif exitcode == 3:
+            if self.verbose: print("[!!] Rotator naive-compile failed, please compile manually.")
+
+        if self.upkeep and threading.active_count() > 1:
+            pass
+        else:
+            self.logfile.close()
+            if self.nolog:
+                os.remove(self.logfilename)
+                if self.verbose: print("[#] Logfile removed.")
+        self.direct_process.terminate()
+        sys.exit(exitcode)
+
+
+    def help(self):
+        print('''[#] Usage ./pharah <callsign> <options>
+Options:
+    -h      print this again
+    -p      restart program on critical error
+    -i      set interval to check APRS
+    -l      do not delete logfile on exit
+    -v      verbose
+            ''')
+
 
 if __name__ == '__main__':
 
-	print('''Pharah v0.0.9 (beta)
+    print('''Pharah v0.0.9 (beta)
 Author: stonepresto
 ''')
-	argc = len(sys.argv)
-	if(argc != 2):
-		print("[#] Use -p option to automatically restart if an error is detected.")
 
-	pharah = Pharah(sys.argv,argc)
-	pharah.run()
+    pharah = Pharah(sys.argv,len(sys.argv))
+
+    if pharah.upkeep:
+        pharah.upkeep()
+    else:
+        pharah.run()

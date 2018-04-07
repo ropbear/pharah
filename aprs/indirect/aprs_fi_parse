@@ -7,7 +7,12 @@
 #for robust locating capabilities when combined with
 #the direct direwolf parser.
 
-callsign=""
+if [ -z "$1" ]
+then
+	echo "[#] Usage: ./aprs_parse_fi <callsign>"
+	exit 1
+fi
+callsign=$1
 limit=1000
 view="decoded"
 page="raw"
