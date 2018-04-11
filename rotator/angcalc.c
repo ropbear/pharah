@@ -13,8 +13,11 @@ plane and the y-z plane the rotator must move to.
 
 //GLOBALS
 #define TYPE "deg"
+/*
+RADIUS: The raidus of the earth
+LATCONST: The rough estimate, in the form of a constant, necessary for converting degrees of latitude to meters
+*/
 #define RADIUS 6371000 //meters
-#define LATDIST 111133 //meters
 
 //FUNCTIONS
 double radtodeg (double rad)
@@ -28,16 +31,36 @@ double degtorad (double deg)
 }
 
 //Calculate the change in latitude
-double latcalc (double latA, double latB)
+double azimuth (double latA, double longA, double latB, double longB)
 {
-	double deg = latB - latA;
-	return LATDIST * deg;
+	/* TODO: Explanation
+	Lubin (https://math.stackexchange.com/users/17760/lubin), Equation for calculating azimuth between two points, URL (version: 2014-03-20): https://math.stackexchange.com/q/719747
+	*/
+	double a = degtorad(fabs(90-latA));
+	double b = degtorad(fabs(90-latB));
+	double C = degtorad(fabs(longA-longB));
+	double c = acos(cos(a)*cos(b) + sin(a)*sin(b)*cos(C));
+	double A = asin(sin(a)*(sin(C)/sin(c)));
+	printf("%.2f, %.2f, %.2f, %.2f, %.2f\n",a,b,C,c,A);
+
+	/*
+	Verified with https://www.fcc.gov/media/radio/distance-and-azimuths
+	It was determined that if latB > latA, the value A should be subtracted from 360.
+	Otherwise, it should be added from 180.
+	*/
+
+	if (latB > latA) {
+		return 360-radtodeg(A);
+	}
+	else {
+		return radtodeg(A) + 180;
+	}
 }
 
 //Calculate the haversine distance, the straight-line distance over the curvature of the Earth
 double haversine (double latA, double longA, double latB, double longB) //RADIANS
 {
-	double phi1, phi2, dphi, dlambda, a, c;
+	double phi1, phi2, dphi, dlambda, a, c = 0;
 	
 	phi1 = degtorad(latA);
 	phi2 = degtorad(latB);
@@ -49,28 +72,15 @@ double haversine (double latA, double longA, double latB, double longB) //RADIAN
 	return RADIUS * c;
 }
 
-//Calculate the change in the X
-double diffx (double dxz, double dz) //RADIANS
-{
-	return asin(dz/dxz);	
-}
-
-//Calculate the change in the Y
-double diffy (double dxz, double dy) //RADIANS
-{
-	return atan(dy/dxz);
-}
-
 //Calculate the necessary angular adjustments
-struct APRS_tuple angcalc(double latA, double longA, double altA, double latB, double longB, double altB)
+struct APRS_tuple calc_location (double latA, double longA, double altA, double latB, double longB, double altB)
 {	
 	struct APRS_tuple tup;
-	double dxz = haversine(latA,longA,latB,longB);
-	double dy = abs(altA-altB);
-	double dz = latcalc(latA, latB);
+	double hvr = haversine(latA,longA,latB,longB);
+	double alt = abs(altA-altB);
 
-	tup.degx = radtodeg(diffx(dxz,dz));
-	tup.degy = radtodeg(diffy(dxz,dy));
+	tup.degx = azimuth(latA,longA,latB,longB);
+	tup.degy = radtodeg(atan(alt/hvr));
 	return tup; //DEGREES
 }
 

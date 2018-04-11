@@ -22,7 +22,7 @@ the specificied COM port.
 #define APRS_BUFFSIZE 100 /* Buffer size for incoming APRS data */
 #define STAT_LAT 41.390565 /* station's latitude */
 #define STAT_LONG -73.955569 /* station's longtitude */
-#define STAT_ALT 400.43 /* station's altitude */
+#define STAT_ALT 44.7 /* (meters) station's altitude */
 
 int rotate(int afd, int efd, struct APRS_tuple deg); //function to rotate 'deg' degrees
 int stop(int afd, int efd); //function to stop rotator movement
@@ -71,7 +71,10 @@ int main (int argc, char * argv[])
 				break;
 
 			case '\n':
-				mov = angcalc(STAT_LAT,STAT_LONG,STAT_ALT,aprsLAT,aprsLONG,aprsALT);
+				mov = calc_location(STAT_LAT,STAT_LONG,STAT_ALT,aprsLAT,aprsLONG,aprsALT);
+				// DEBUG
+				// printf("%.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n",STAT_LAT,STAT_LONG,STAT_ALT,aprsLAT,aprsLONG,aprsALT);
+				printf("%.2f, %.2f\n",mov.degx, mov.degy);
 				if(0 != rotate(azimuth,elevation,mov)) goto error;
 				enabled = 0;
 

@@ -78,8 +78,6 @@ class Pharah:
         #find COM ports for rotator, excluding current terminal
         #Thank you Thomas! All credit goes to him for this function.
         #https://stackoverflow.com/users/300783/thomas
-####
-
         ports = glob.glob('/dev/tty[A-Za-z]*')#TODO test COM ports
         result = []
         for port in ports:
@@ -90,7 +88,7 @@ class Pharah:
             except (OSError, serial.serialutil.SerialException):
                 pass
         return result #TODO remove RTL-SDR com port
-
+####
 
     def rotate_setup(self):
         try:
@@ -160,7 +158,7 @@ class Pharah:
             if self.verbose: print("[!!] Rotator naive-compile failed, please compile manually.")
 
         if self.upkeep and threading.active_count() > 1:
-            pass
+            pass 
         else:
             self.logfile.close()
             if self.nolog:
@@ -184,8 +182,7 @@ Options:
 if __name__ == '__main__':
 
     print('''Pharah v0.0.9 (beta)
-Author: stonepresto
-''')
+Author: stonepresto''')
 
     pharah = Pharah(sys.argv,len(sys.argv))
 
